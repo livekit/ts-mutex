@@ -39,4 +39,22 @@ describe('Mutex', () => {
     unlock1();
     expect(mutex.isLocked()).toBe(false);
   });
+
+  it('should support multiple locks being used at once', async () => {
+    const mutex = new Mutex(3);
+    const unlock1 = await mutex.lock();
+    expect(mutex.isLocked()).toBe(false);
+    const unlock2 = await mutex.lock();
+    expect(mutex.isLocked()).toBe(false);
+    const unlock3 = await mutex.lock();
+    expect(mutex.isLocked()).toBe(true);
+    const unlock4Promise = mutex.lock();
+    unlock1();
+    expect(mutex.isLocked()).toBe(true);
+    unlock2();
+    expect(mutex.isLocked()).toBe(false);
+    unlock3();
+    expect(mutex.isLocked()).toBe(false);
+    await unlock4Promise.then((unlock) => unlock);
+  });
 });
