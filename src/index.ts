@@ -23,8 +23,8 @@ export class Mutex {
       this._queue.push(() => {
         this._locks++;
         resolve(this._unlock.bind(this));
-      })
-    })
+      });
+    });
   }
 
   private _unlock() {
