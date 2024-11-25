@@ -17,7 +17,6 @@
   "module": "dist/index.mjs",
   "typings": "dist/index.d.ts",
   "sideEffects": false,
-  "type": "module",
   "files": [
     "dist",
     "src"
