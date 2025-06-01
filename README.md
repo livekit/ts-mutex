@@ -19,4 +19,9 @@ try {
 finally {
     unlock();
 }
+
+// withLock() that automatically locks and unlocks
+await myLock.withLock(async () => {
+    ...
+});
 ```
