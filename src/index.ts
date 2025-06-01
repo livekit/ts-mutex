@@ -31,6 +31,15 @@ export class Mutex {
 
     return willUnlock;
   }
+
+  async withLock<T>(fn: () => T | Promise<T>) {
+    const unlock = await this.lock();
+    try {
+      return await fn();
+    } finally {
+      unlock();
+    }
+  }
 }
 
 export class MultiMutex {
@@ -60,6 +69,15 @@ export class MultiMutex {
         resolve(this._unlock.bind(this));
       });
     });
+  }
+
+  async withLock<T>(fn: () => T | Promise<T>) {
+    const unlock = await this.lock();
+    try {
+      return await fn();
+    } finally {
+      unlock();
+    }
   }
 
   private _unlock() {
